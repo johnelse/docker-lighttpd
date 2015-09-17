@@ -15,14 +15,17 @@ def main():
     Main entry point.
     """
     parser = argparse.ArgumentParser()
+    parser.add_argument('--port', default=8080, type=int,
+                        help='Host port which will forwarded to the '
+                             'container\'s listening port')
     parser.add_argument('--root',
                         help='Root directory to be served')
 
     args = parser.parse_args(sys.argv[1:])
     image = "%s/lighttpd" % os.getenv("USER")
     docker_args = [
-        "docker", "run", "-d", "--name", "lighttpd-container",
-        "-p", "8080:8080",
+        "docker", "run", "-d", "--name", "lighttpd-container-%d" % args.port,
+        "-p", "%d:8080" % args.port,
         "-v", "%s:/var/www" % args.root,
         image
         ]
