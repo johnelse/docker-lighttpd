@@ -10,7 +10,6 @@ VOLUME  ["/var/www"]
 
 EXPOSE  8080
 
-RUN     chown -R www-data /etc/lighttpd
 RUN     chown -R www-data /var/log/lighttpd
 RUN     touch /var/run/lighttpd.pid
 RUN     chown www-data /var/run/lighttpd.pid
