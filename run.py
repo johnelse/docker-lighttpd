@@ -11,6 +11,7 @@ import sys
 
 
 DEFAULT_ADDRESS = '127.0.0.1'
+DEFAULT_PORT = 8080
 
 
 def main():
@@ -20,20 +21,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--address', default=DEFAULT_ADDRESS,
                         help='Host address on which the container will listen')
-    parser.add_argument('--port', default=8080, type=int,
+    parser.add_argument('--port', default=DEFAULT_PORT, type=int,
                         help='Host port which will forwarded to the '
                              'container\'s listening port')
     parser.add_argument('--root',
                         help='Root directory to be served')
 
     args = parser.parse_args(sys.argv[1:])
-    address = DEFAULT_ADDRESS
-    if args.address:
-        address = args.address
     image = "%s/lighttpd" % os.getenv("USER")
     docker_args = [
         "docker", "run", "-d", "--name", "lighttpd-container-%d" % args.port,
-        "-p", "%s:%d:8080" % (address, args.port),
+        "-p", "%s:%d:8080" % (args.address, args.port),
         "-v", "%s:/var/www" % args.root,
         image
         ]
