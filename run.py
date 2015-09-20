@@ -32,7 +32,7 @@ def main():
     docker_args = [
         "docker", "run", "-d", "--name", "lighttpd-container-%d" % args.port,
         "-p", "%s:%d:8080" % (args.address, args.port),
-        "-v", "%s:/var/www" % args.root,
+        "-v", "%s:/var/www:ro" % args.root,
         image
         ]
     print "Launching docker with args %s" % docker_args
