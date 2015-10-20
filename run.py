@@ -24,7 +24,7 @@ def main():
     parser.add_argument('--port', default=DEFAULT_PORT, type=int,
                         help='Host port which will forwarded to the '
                              'container\'s listening port')
-    parser.add_argument('--root',
+    parser.add_argument('root', nargs=1,
                         help='Root directory to be served')
 
     args = parser.parse_args(sys.argv[1:])
@@ -32,7 +32,7 @@ def main():
     docker_args = [
         "docker", "run", "-d", "--name", "lighttpd-container-%d" % args.port,
         "-p", "%s:%d:8080" % (args.address, args.port),
-        "-v", "%s:/var/www:ro" % args.root,
+        "-v", "%s:/var/www:ro" % args.root[0],
         image
         ]
     print "Launching docker with args %s" % docker_args
