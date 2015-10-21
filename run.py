@@ -35,7 +35,7 @@ def main():
         "-v", "%s:/var/www:ro" % args.root[0],
         image
         ]
-    print "Launching docker with args %s" % docker_args
+    sys.stderr.write("Launching docker with args %s\n" % docker_args)
     subprocess.call(docker_args)
 
 
